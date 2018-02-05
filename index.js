@@ -9,18 +9,21 @@ module.exports = function middleware(hook) {
     },
     params,
     req: {
-      headers,
+      headers: {
+        'zapier-hook-url': zapierHookUrl,
+      },
       method: reqMethod,
       body,
     },
     res,
   } = hook;
 
+  const { token } = params;
+
   // botengine.ai invokes webhook verification requests with an HTTP GET method.
   if (reqMethod === 'GET') {
     const {
       challenge,
-      token,
     } = params;
 
     console.log({
@@ -29,7 +32,6 @@ module.exports = function middleware(hook) {
     });
 
     res.setHeader('Content-Type', 'text/plain');
-
 
     if (token !== BOTENGINE_VERIFICATION_TOKEN) {
       res.statusCode = 401;
@@ -54,8 +56,29 @@ module.exports = function middleware(hook) {
   // Thus, we forward the webhook payload to the zapier webhook url configured
   // in botengine.ai and passed to us as a header.
   console.log({
-    params,
-    body,
+    message: 'Forwarding botengine.ai payload to zapier',
   });
-  return res.end('"Death"');
+
+  request.post({
+    url: zapierHookUrl,
+    body,
+    json: true,
+  }, (err, zapRes, zapResBody) => {
+    res.setHeader('Content-Type', 'application/json');
+    if (err) {
+      console.log({ err });
+      res.statusCode = 500;
+      return res.end(JSON.stringify(err));
+    }
+
+    if (!zapRes.statusCode.test(/^2/)) {
+      const zapErr = new Error(`Error from zapier: ${zapRes.statusMessage}`);
+      zapErr.statusCode = zapRes.statusCode;
+      console.log({ zapErr });
+      return res.end(JSON.stringify(zapErr));
+    }
+
+    res.statusCode = 200;
+    return res.end(JSON.stringify(zapResBody));
+  });
 }
