@@ -78,10 +78,18 @@ module.exports = function middleware(hook) {
     }
 
     console.log({
-      message: 'Sending Zapier response back to botengine.ai',
+      message: 'Sending success message back to botengine.ai',
       zapResBody,
     });
     res.statusCode = 200;
-    return res.end(JSON.stringify({ value: zapResBody }));
+    const response = {
+      responses: [
+        {
+          type: 'text',
+          elements: ['sucessful webhok! Hooray!']
+        },
+      ],
+    };
+    return res.end(JSON.stringify(response));
   });
 }
