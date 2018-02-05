@@ -30,7 +30,6 @@ module.exports = function middleware(hook) {
       message: 'Processing botengine.ai verification request.',
       challenge,
     });
-
     res.setHeader('Content-Type', 'text/plain');
 
     if (token !== BOTENGINE_VERIFICATION_TOKEN) {
@@ -48,7 +47,6 @@ module.exports = function middleware(hook) {
       message: 'Returning challenge response to botengine.ai',
       challengeResponse,
     });
-
     return res.end(challengeResponse);
   }
 
@@ -78,6 +76,10 @@ module.exports = function middleware(hook) {
       return res.end(JSON.stringify(zapErr));
     }
 
+    console.log({
+      message: 'Sending Zapier response back to botengine.ai',
+      zapResBody,
+    });
     res.statusCode = 200;
     return res.end(JSON.stringify(zapResBody));
   });
