@@ -55,6 +55,7 @@ module.exports = function middleware(hook) {
   // in botengine.ai and passed to us as a header.
   console.log({
     message: 'Forwarding botengine.ai payload to zapier',
+    botengineAIPayload: body,
   });
 
   request.post({
@@ -81,6 +82,6 @@ module.exports = function middleware(hook) {
       zapResBody,
     });
     res.statusCode = 200;
-    return res.end(JSON.stringify(zapResBody));
+    return res.end(JSON.stringify({ value: zapResBody }));
   });
 }
