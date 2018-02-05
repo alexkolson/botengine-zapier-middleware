@@ -86,7 +86,7 @@ module.exports = function middleware(hook) {
       responses: [
         {
           type: 'text',
-          elements: ['sucessful webhok! Hooray!']
+          elements: ['sucessful webhook! Hooray!']
         },
       ],
     };
