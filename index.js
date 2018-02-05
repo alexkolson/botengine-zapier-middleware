@@ -69,7 +69,7 @@ module.exports = function middleware(hook) {
       return res.end(JSON.stringify(err));
     }
 
-    if (!zapRes.statusCode.test(/^2/)) {
+    if (!/^2/.test(zapRes.statusCode)) {
       const zapErr = new Error(`Error from zapier: ${zapRes.statusMessage}`);
       zapErr.statusCode = zapRes.statusCode;
       console.log({ zapErr });
