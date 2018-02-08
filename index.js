@@ -58,6 +58,11 @@ module.exports = function middleware(hook) {
     botengineAIPayload: body,
   });
 
+  console.log(typeof body);
+  console.log(typeof params);
+
+  console.log(params);
+
   request.post({
     url: zapierHookUrl,
     body,
