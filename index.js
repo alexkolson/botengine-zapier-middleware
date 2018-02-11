@@ -72,17 +72,17 @@ module.exports = function middleware(hook) {
       parameters: contextParameters,
     } = context;
 
-    return `${path}
+    return `${path}<br/>
     ${contextName}`;
   }, '');
   const timeInfo = `Webhook was triggered at: ${new Date(timestamp).toString()}`;
 
   const emailBody = `
-    ${emailIntro}
-    ${storyInfo}
-    ${storyPathIntro}
-    ${storyPath}
-    ${timeInfo}
+    ${emailIntro}<br/>
+    ${storyInfo}<br/>
+    ${storyPathIntro}<br/>
+    ${storyPath}<br/>
+    ${timeInfo}<br/>
   `;
 
   const zapBody = {
