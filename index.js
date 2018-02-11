@@ -91,7 +91,7 @@ module.exports = function middleware(hook) {
   };
 
   request.post({
-    url: 'https://requestb.in/1cai2hq1',
+    url: zapierHookUrl,
     body: zapBody,
     json: true,
   }, (err, zapRes, zapResBody) => {
