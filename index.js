@@ -90,7 +90,7 @@ module.exports = function middleware(hook) {
     emailBody,
   };
 
-  console.log(zapBody);
+  console.log(JSON.stringify(zapBody));
 
   request.post({
     url: 'https://requestb.in/1cai2hq1',
