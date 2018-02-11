@@ -58,15 +58,17 @@ module.exports = function middleware(hook) {
     botengineAIPayload,
   });
 
-  const { result } = botengineAIPayload;
+  const {
+    result,
+    sessionId,
+    timestamp,
+  } = botengineAIPayload;
   const {
     source,
     storyId,
     interaction,
     contexts,
     parameters,
-    sessionId,
-    timestamp,
   } = result;
   const emailSubject = `New webhook execution from botengine.ai in story: ${storyId}`;
   const emailIntro = 'Hello there! A user recently interacted with your chat bot and triggered this webhook execution.';
