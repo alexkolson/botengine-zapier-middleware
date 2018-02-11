@@ -89,7 +89,7 @@ module.exports = function middleware(hook) {
 
     return `${path}->${context}`;
   }, '');
-  const timeInfo = `Webhook was triggered at: ${new Date(timestamp).toString()}`
+  const timeInfo = `Webhook was triggered at: ${new Date(timestamp).toString()}`;
 
   const emailBody = `
     ${emailIntro}
