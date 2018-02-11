@@ -13,7 +13,7 @@ module.exports = function middleware(hook) {
         'zapier-hook-url': zapierHookUrl,
       },
       method: reqMethod,
-      body,
+      body: botengineAIPayload,
     },
     res,
   } = hook;
@@ -55,17 +55,55 @@ module.exports = function middleware(hook) {
   // in botengine.ai and passed to us as a header.
   console.log({
     message: 'Forwarding botengine.ai payload to zapier',
-    botengineAIPayload: body,
+    botengineAIPayload,
   });
 
-  console.log(typeof body);
-  console.log(typeof params);
+  const {
+    source,
+    storyId,
+    interaction,
+    contexts,
+    parameters,
+    sessionId,
+    timestamp,
+  } = botengineAIPayload;
+  const emailSubject = `New webhook execution from botengine.ai in story: ${storyId}`;
+  const emailIntro = 'Hello there! A user recently interacted with your chat bot and triggered this webhook execution.';
+  const storyInfo = `This webhook execution was triggered from the following story: ${storyId}`;
+  const storyPathIntro = 'The user took the following path through the story to trigger the interaction:';
+  const storyPath = contexts.reverse.reduce((path, context, index) => {
+    const {
+      name,
+      parameters,
+    } = context;
 
-  console.log(params);
+
+    const contextInfo = `${name}=>${JSON.stringify(parameters)}`;
+
+    if (!path.length) {
+      return `${contextInfo}->`;
+    }
+
+    return `${path}->${context}`;
+  }, '');
+  const timeInfo = `Webhook was triggered at: ${new Date(timestamp).toString()}`
+
+  const emailBody = `
+    ${emailIntro}
+    ${storyInfo}
+    ${storyPathIntro}
+    ${storyPath}
+    ${timeInfo}
+  `;
+
+  const zapBody = {
+    emailSubject,
+    emailBody,
+  };
 
   request.post({
     url: zapierHookUrl,
-    body,
+    zapBody,
     json: true,
   }, (err, zapRes, zapResBody) => {
     res.setHeader('Content-Type', 'application/json');
