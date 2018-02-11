@@ -85,9 +85,14 @@ module.exports = function middleware(hook) {
     ${timeInfo}
   `;
 
+  const zapBody = {
+    emailSubject,
+    emailBody,
+  };
+
   request.post({
     url: 'https://requestb.in/1cai2hq1',
-    body: zapBody,
+    zapBody,
     json: true,
   }, (err, zapRes, zapResBody) => {
     res.setHeader('Content-Type', 'application/json');
