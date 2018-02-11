@@ -90,11 +90,10 @@ module.exports = function middleware(hook) {
     emailBody,
   };
 
-  console.log('Hey!');
   console.log(zapBody);
 
   request.post({
-    url: zapierHookUrl,
+    url: 'https://requestb.in/1cai2hq1',
     zapBody,
     json: true,
   }, (err, zapRes, zapResBody) => {
