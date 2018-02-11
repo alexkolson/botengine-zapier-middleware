@@ -72,7 +72,7 @@ module.exports = function middleware(hook) {
   const emailIntro = 'Hello there! A user recently interacted with your chat bot and triggered this webhook execution.';
   const storyInfo = `This webhook execution was triggered from the following story: ${storyId}`;
   const storyPathIntro = 'The user took the following path through the story to trigger the interaction:';
-  const storyPath = contexts.reverse.reduce((path, context, index) => {
+  const storyPath = contexts.reverse().reduce((path, context, index) => {
     const {
       name,
       parameters,
