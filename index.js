@@ -68,12 +68,16 @@ module.exports = function middleware(hook) {
   const storyPathIntro = 'The user took the following path through the story to trigger the interaction:';
   const storyPath = contexts.reverse().reduce((path, context, index) => {
     const {
-      name,
-      parameters,
+      contextName,
+      contextParameters,
     } = context;
 
+    console.log({
+      contextName,
+      contextParameters,
+    });
 
-    const contextInfo = `${name}=>${JSON.stringify(parameters)}`;
+    const contextInfo = `${contextName}=>${JSON.stringify(contextParameters)}`;
 
     if (!path.length) {
       return `${contextInfo}->`;
