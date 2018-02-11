@@ -92,7 +92,7 @@ module.exports = function middleware(hook) {
 
   request.post({
     url: 'https://requestb.in/1cai2hq1',
-    zapBody,
+    body: zapBody,
     json: true,
   }, (err, zapRes, zapResBody) => {
     res.setHeader('Content-Type', 'application/json');
