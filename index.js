@@ -50,14 +50,6 @@ module.exports = function middleware(hook) {
     return res.end(challengeResponse);
   }
 
-  // Request method is not GET, therefore this is not a verification request.
-  // Thus, we forward the webhook payload to the zapier webhook url configured
-  // in botengine.ai and passed to us as a header.
-  console.log({
-    message: 'Forwarding botengine.ai payload to zapier',
-    botengineAIPayload,
-  });
-
   const {
     result,
     sessionId,
@@ -103,6 +95,9 @@ module.exports = function middleware(hook) {
     emailSubject,
     emailBody,
   };
+
+  console.log('Hey!');
+  console.log(zapBody);
 
   request.post({
     url: zapierHookUrl,
