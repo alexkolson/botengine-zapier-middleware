@@ -72,18 +72,8 @@ module.exports = function middleware(hook) {
       parameters: contextParameters,
     } = context;
 
-    console.log({
-      contextName,
-      contextParameters,
-    });
-
-    const contextInfo = `${contextName}=>${JSON.stringify(contextParameters)}`;
-
-    if (!path.length) {
-      return `${contextInfo}->`;
-    }
-
-    return `${path}->${context}`;
+    return `${path}
+    ${contextName}`;
   }, '');
   const timeInfo = `Webhook was triggered at: ${new Date(timestamp).toString()}`;
 
