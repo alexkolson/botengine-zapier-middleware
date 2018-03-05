@@ -3,7 +3,5 @@ This code is intended to be used as a webhook mediator between botengine and zap
 
 This code as written is intended to be run on [hook.io](https://hook.io), but could easily be modified to run as a microservice anywhere you like.
 
-## Hook.IO usage
-Copy [config.example.json](config.example.json) to `config.json`. Fill in the `"stories"` object with your story ids and related configuration parameters.
-
-Use [index.js](index.js) as your microservice source file. Invoke the service via GET. Add a query parameter named `config` containing the base64 encoded contents of [config.json](config.json). The service is now ready to be invoked from botengine.ai.
+## Hook.IO Usage
+Set an environment variable in [hook.io](https://hook.io/env) called `BOTENGINE_VERIFICATION_TOKEN`. It's value should be equal to the "Verification Token" you set in your botengine.ai webhook configuration.

@@ -1,6 +1,7 @@
 'use strict';
 
 const request = require('request');
+const moment = require('moment');
 
 module.exports = function middleware(hook) {
   const {
@@ -62,33 +63,11 @@ module.exports = function middleware(hook) {
     contexts,
     parameters,
   } = result;
-  const emailSubject = `New webhook execution from botengine.ai in story: ${storyId}`;
-  const emailIntro = 'Hello there! A user recently interacted with your chat bot and triggered this webhook execution.';
-  const storyInfo = `This webhook execution was triggered from the following story: ${storyId}`;
-  const storyPathIntro = 'The user took the following path through the story to trigger the interaction:';
-  const storyPath = contexts.reverse().reduce((path, context, index) => {
-    const {
-      name: contextName,
-      parameters: contextParameters,
-    } = context;
 
-    return `${path}<br/>
-    ${contextName}`;
-  }, '');
-  const timeInfo = `Webhook was triggered at: ${new Date(timestamp).toString()}`;
+  const zapBody = contexts.reduce((allParams, { parameters = {} }) => Object.assign(allParams, parameters), {});
+  Object.assign(zapBody, { date: moment().locale('nb').format('ll') })
 
-  const emailBody = `
-    ${emailIntro}<br/>
-    ${storyInfo}<br/>
-    ${storyPathIntro}<br/>
-    ${storyPath}<br/>
-    ${timeInfo}<br/>
-  `;
-
-  const zapBody = {
-    emailSubject,
-    emailBody,
-  };
+  console.log({ contexts, zapBody });
 
   request.post({
     url: zapierHookUrl,
